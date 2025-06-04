@@ -23,5 +23,5 @@ public class ActivitiesController(AppDbContext context) : BaseApiController
             return NotFound();
         }
         return activity;
-   }
+    }
 }
