@@ -1,13 +1,13 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import type { FormEvent } from "react";
 import { useActivities } from "../../../lib/hooks/useActivities";
+import { useNavigate, useParams } from "react-router";
 
-type Props = {
-  activity?: Activity;
-  closeForm: () => void;
-};
-export default function ActivityForm({ activity, closeForm }: Props) {
-  const { updateActivity, createActivity } = useActivities();
+export default function ActivityForm() {
+  const { id } = useParams();
+  const { updateActivity, createActivity, activity, isLoadingActivity } =
+    useActivities(id);
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -19,16 +19,22 @@ export default function ActivityForm({ activity, closeForm }: Props) {
     if (activity) {
       data.id = activity.id;
       await updateActivity.mutateAsync(data as unknown as Activity);
-      closeForm();
+      navigate(`/activities/${activity.id}`);
     } else {
-      await createActivity.mutateAsync(data as unknown as Activity);
-      closeForm();
+      createActivity.mutate(data as unknown as Activity, {
+        onSuccess: (id) => {
+          navigate(`/activities/${id}`);
+        },
+      });
     }
     console.log(data);
   };
+  if (isLoadingActivity) return <Typography>Loading activity...</Typography>;
   return (
     <Paper sx={{ borderRadius: 3, padding: 3 }}>
-      <Typography variant="h5">Create Activity</Typography>
+      <Typography variant="h5" gutterBottom color="primary">
+        {activity ? "Edit Activity" : "Create Activity"}
+      </Typography>
       <Box
         component="form"
         onSubmit={handleSubmit}
@@ -62,9 +68,7 @@ export default function ActivityForm({ activity, closeForm }: Props) {
         <TextField name="city" label="City" defaultValue={activity?.city} />
         <TextField name="venue" label="Venue" defaultValue={activity?.venue} />
         <Box display="flex" justifyContent="flex-end" gap={3}>
-          <Button onClick={closeForm} color="inherit">
-            Cancel
-          </Button>
+          <Button color="inherit">Cancel</Button>
           <Button
             type="submit"
             color="success"
