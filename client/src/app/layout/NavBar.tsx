@@ -43,6 +43,7 @@ export default function NavBar() {
               <MenuItemLink to="/activities">Activities</MenuItemLink>
               <MenuItemLink to="/createActivity">Create Activity</MenuItemLink>
               <MenuItemLink to="/counter">Counter</MenuItemLink>
+              <MenuItemLink to="/errors">Errors</MenuItemLink>
             </Box>
             <MenuItem>User Menu</MenuItem>
           </Toolbar>
@@ -57,7 +58,7 @@ export default function NavBar() {
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  height: 0,
+                  height: 4,
                 }}
               />
             ) : null
