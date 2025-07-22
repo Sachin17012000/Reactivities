@@ -36,6 +36,10 @@ builder.Services.AddIdentityApiEndpoints<User>(opt =>
 {
     opt.User.RequireUniqueEmail = true;
 }).AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -45,7 +49,6 @@ app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
     .WithOrigins("http://localhost:3000", "https://localhost:3000"));
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<User>();
 
