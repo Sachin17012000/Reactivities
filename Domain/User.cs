@@ -16,4 +16,7 @@ public class User : IdentityUser
     {
         get; set;
     }
+
+    //nav properties
+    public ICollection<ActivityAttendee> Activities { get; set; } = [];
 }
