@@ -4,6 +4,8 @@ using Application.Profiles.DTOs;
 using Application.Profiles.Queries;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
+using Application.Profiles;
+using Microsoft.AspNetCore.Http;
 
 namespace API.Controllers;
 
@@ -48,5 +50,12 @@ public class ProfilesController : BaseApiController
     public async Task<ActionResult> GetFollowings(string userId, string predicate)
     {
         return HandleResult(await Mediator.Send(new GetFollowings.Query { UserId = userId, Predicate = predicate }));
+    }
+
+    [HttpGet("{userId}/activities")]
+    public async Task<IActionResult> GetUserActivities(string userId, string filter)
+    {
+        return HandleResult(await Mediator.Send(new GetUserActivities.Query
+        { UserId = userId, Filter = filter }));
     }
 }
