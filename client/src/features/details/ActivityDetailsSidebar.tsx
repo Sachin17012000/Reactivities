@@ -16,8 +16,6 @@ type Props = {
 };
 
 export default function ActivityDetailsSidebar({ activity }: Props) {
-  console.log("acitivytian", activity.attendees);
-
   return (
     <>
       <Paper

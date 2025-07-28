@@ -16,7 +16,6 @@ export default function ProfileHeader() {
   const { id } = useParams();
   const { isCurrentUser, profile, updateFollowing } = useProfile(id);
   if (!profile) return null;
-  console.log("prilfehaed", profile);
   return (
     <Paper elevation={3} sx={{ p: 4, borderRadius: 3 }}>
       <Grid container spacing={2}>
