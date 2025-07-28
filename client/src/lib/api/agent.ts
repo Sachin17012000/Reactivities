@@ -42,11 +42,7 @@ agent.interceptors.response.use(
         }
         break;
       case 401:
-        if (data.detail === "NotAllowed") {
-          throw new Error(data.detail);
-        } else {
-          toast.error("Unauthorised");
-        }
+        toast.error("Unauthorised");
         break;
       case 404:
         window.location.href = "/not-found";
